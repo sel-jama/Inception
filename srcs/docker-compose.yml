@@ -3,28 +3,36 @@ version: '3.8'
 services:
   nginx:
     build: ./requirements/nginx
-    image: nginx
+    image: nginx:13
     container_name: nginx
     depends_on:
       - wordpress
     networks:
       - inception
     volumes:
-      - ./web:/var/www/html
+      - wordpress:/var/www/html
       # - wordpress:/var/www/wordpress
     # env_file: .env
-    restart: on-failure
+    restart: always
     ports:
       - "443:443"
+    expose:
+      - "443"
 
   mariadb:
     build: ./requirements/mariadb
-    image: mariadb
+    image: mariadb:13
     container_name: mariadb
-    restart: on-failure
+    restart: always
     # env_file: .env
-    # volumes:
-    #   - mariadb:/var/lib/mysql
+    # healthcheck:
+    #   test: ["CMD", "mysqladmin", "ping", "-h", "localhost", "-u", "root", "-p${root_password}"]
+    #   interval: 30s
+    #   retries: 3
+    #   start_period: 30s
+    #   timeout: 10s
+    volumes:
+      - mariadb:/var/lib/mysql
     networks:
       - inception
     expose:
@@ -32,34 +40,39 @@ services:
 
   wordpress:
     build: ./requirements/wordpress
-    image: wordpress
+    image: wordpress:13
     container_name: wordpress
-    restart: on-failure
+    restart: always
     # env_file: .env
     depends_on:
       - mariadb
+        # condition: service_healthy
+
     volumes:
-        - ./web:/var/www/html
+        - wordpress:/var/www/html
       # - wordpress:/var/www/wordpress
     expose:
       - "9000"
     networks:
       - inception
 
-# volumes:
-#   wordpress:
-#     driver: local
-#     driver_opts:
-#       type: 'none'
-#       o: 'bind'
-#       device: '~/Desktop/wordpress'
-#   mariadb:
-#     driver: local
-#     driver_opts:
-#       type: 'none'
-#       o: 'bind'
-#       device: '~/Desktop/mariadb'
+volumes:
+  wordpress:
+    name: wordpress
+    driver: local
+    driver_opts:
+      type: 'none'
+      o: 'bind'
+      device: /home/sel-jama/Desktop/Inception/srcs/wordpress
+  mariadb:
+    name: mariadb
+    driver: local
+    driver_opts:
+      type: 'none'
+      o: 'bind'
+      device: /home/sel-jama/Desktop/Inception/srcs/mariadb
 
 networks:
   inception:
-    driver: bridge
+    name: inception
+    # driver: bridge
