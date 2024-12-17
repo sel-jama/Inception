@@ -1,5 +1,4 @@
 version: '3.8'
-
 services:
   nginx:
     build: ./requirements/nginx
@@ -12,7 +11,7 @@ services:
     volumes:
       - wordpress:/var/www/html
       # - wordpress:/var/www/wordpress
-    # env_file: .env
+    env_file: .env
     restart: always
     ports:
       - "443:443"
@@ -24,7 +23,7 @@ services:
     image: mariadb:13
     container_name: mariadb
     restart: always
-    # env_file: .env
+    env_file: .env
     # healthcheck:
     #   test: ["CMD", "mysqladmin", "ping", "-h", "localhost", "-u", "root", "-p${root_password}"]
     #   interval: 30s
@@ -43,7 +42,7 @@ services:
     image: wordpress:13
     container_name: wordpress
     restart: always
-    # env_file: .env
+    env_file: .env
     depends_on:
       - mariadb
         # condition: service_healthy

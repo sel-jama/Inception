@@ -7,16 +7,16 @@ if [ ! -f "/var/www/html/wp-config.php" ]; then
     mv wp-config-sample.php wp-config.php
 
     # Configure the database connection in wp-config.php
-    wp config set DB_NAME database --allow-root
-    wp config set DB_USER user --allow-root
-    wp config set DB_PASSWORD password --allow-root
+    wp config set DB_NAME ${MYSQL_DATABASE} --allow-root
+    wp config set DB_USER ${MYSQL_USER} --allow-root
+    wp config set DB_PASSWORD ${MYSQL_PASSWORD} --allow-root
     wp config set DB_HOST mariadb:3306 --allow-root
 fi
 
 sleep 10
-wp core install --url=https://localhost --title=seljama_Site --admin_user=user0 --admin_email=email@gmail.com --admin_password=1234 --allow-root
+wp core install --url=https://localhost --title=${SITE_TITLE} --admin_user=${ADMIN_USER} --admin_email=${ADMIN_EMAIL} --admin_password=${ADMIN_PASS} --allow-root
 
-wp user create --allow-root --role=author user user@gmail.com --user_pass=userpass
+wp user create --allow-root --role=author ${USER0_LOGIN} ${USER0_MAIL} --user_pass=${USER0_PASS}
 
 # Start PHP-FPM in the foreground
 php-fpm7.4 -F
