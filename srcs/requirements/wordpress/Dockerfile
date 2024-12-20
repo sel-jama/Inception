@@ -8,7 +8,7 @@ RUN apt-get install -y vim wget php7.4-fpm php7.4-mysql mariadb-client
 RUN mkdir -p /var/www/html
 
 # Copy PHP-FPM configuration
-COPY /tools/www.conf /etc/php/7.4/fpm/pool.d/www.conf
+COPY /conf/www.conf /etc/php/7.4/fpm/pool.d/www.conf
 
 # Create necessary directories with appropriate permissions
 RUN mkdir -p /run/php && chmod 775 /run/php
@@ -31,7 +31,7 @@ RUN chmod +x /wp_script.sh
 # Ensure correct permissions
 RUN chown -R www-data:www-data /var/www/html
 
-EXPOSE 9000
+RUN apt-get update && apt-get install -y sendmail
 
 # Entrypoint to run the script
 CMD ["/wp_script.sh"]

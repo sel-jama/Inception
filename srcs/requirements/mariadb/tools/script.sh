@@ -1,7 +1,7 @@
 #!/bin/bash
 
 service mariadb start
-sleep 5
+sleep 3
 
 mariadb -u root << EOF
 CREATE DATABASE IF NOT EXISTS \`${MYSQL_DATABASE}\`;

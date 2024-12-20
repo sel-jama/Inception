@@ -13,8 +13,8 @@ if [ ! -f "/var/www/html/wp-config.php" ]; then
     wp config set DB_HOST mariadb:3306 --allow-root
 fi
 
-sleep 10
-wp core install --url=https://localhost --title=${SITE_TITLE} --admin_user=${ADMIN_USER} --admin_email=${ADMIN_EMAIL} --admin_password=${ADMIN_PASS} --allow-root
+sleep 5
+wp core install --url=${DOMAIN_NAME} --title=${SITE_TITLE} --admin_user=${ADMIN_USER} --admin_email=${ADMIN_EMAIL} --admin_password=${ADMIN_PASS} --allow-root
 
 wp user create --allow-root --role=author ${USER0_LOGIN} ${USER0_MAIL} --user_pass=${USER0_PASS}
 

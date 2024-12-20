@@ -62,16 +62,16 @@ volumes:
     driver_opts:
       type: 'none'
       o: 'bind'
-      device: /home/sel-jama/Desktop/Inception/srcs/wordpress
+      device: /home/sel-jama/data/wordpress
   mariadb:
     name: mariadb
     driver: local
     driver_opts:
       type: 'none'
       o: 'bind'
-      device: /home/sel-jama/Desktop/Inception/srcs/mariadb
+      device: /home/sel-jama/data/mariadb
 
 networks:
   inception:
     name: inception
-    # driver: bridge
+
