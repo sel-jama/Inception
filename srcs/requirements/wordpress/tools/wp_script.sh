@@ -1,12 +1,10 @@
 #!/bin/bash
 
-# Download WordPress core if not already present
 cd /var/www/html
 
 if [ ! -f "/var/www/html/wp-config.php" ]; then
     mv wp-config-sample.php wp-config.php
 
-    # Configure the database connection in wp-config.php
     wp config set DB_NAME ${MYSQL_DATABASE} --allow-root
     wp config set DB_USER ${MYSQL_USER} --allow-root
     wp config set DB_PASSWORD ${MYSQL_PASSWORD} --allow-root
@@ -18,5 +16,4 @@ wp core install --url=${DOMAIN_NAME} --title=${SITE_TITLE} --admin_user=${ADMIN_
 
 wp user create --allow-root --role=author ${USER0_LOGIN} ${USER0_MAIL} --user_pass=${USER0_PASS}
 
-# Start PHP-FPM in the foreground
 php-fpm7.4 -F

@@ -1,7 +1,5 @@
-# Use a lightweight base image
 FROM debian:bullseye
 
-# Install necessary packages
 RUN apt-get update -y && apt-get upgrade -y \
     && apt-get install -y mariadb-server
 
@@ -21,10 +19,6 @@ RUN mkdir -p /run/mysqld && \
 
 COPY ./tools/script.sh /
 RUN chmod +x /script.sh
-#RUN script.sh
 
-# Run the script during container startup
 CMD ["/script.sh"]
 
-# Default command to keep the container running
-#ENTRYPOINT ["mysqld_safe"]
