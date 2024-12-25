@@ -7,7 +7,7 @@ RUN mkdir -p /var/www/html
 
 COPY /conf/www.conf /etc/php/7.4/fpm/pool.d/www.conf
 
-RUN mkdir -p /run/php && chmod 775 /run/php
+# RUN mkdir -p /run/php && chmod 775 /run/php
 
 RUN wget https://wordpress.org/latest.tar.gz -P /var/www && \
     cd /var/www && \
